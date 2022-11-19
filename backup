@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#############################################################
+#: Title        : Back up                                   #
+#: Date         : November 16, 2022                         #
+#: Author       : Dennis Phan                               #
+#: Version      : 1.0                                       #
+#: Description  : Local to remote server back up with rsync #
+#: Options      : None                                      #
+#############################################################
+
+#import varialbes
+# source backup.config
+. backup.config
+
+#using rsync to back up
+rsync -aucz -e "ssh -i $HOME/backup_key" ${directory} root@${ip_address}:~/backup
+exit 0
