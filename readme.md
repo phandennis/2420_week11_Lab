@@ -9,6 +9,10 @@ Script to backup the directories to a remote server automated by using unit file
 
 ## How to Install the Project
 
+An overview of directories and files:
+
+![overview of directories and files](./images/small_map.png)
+
 ### backup
 How to install the backup script and ensure it is functional:
 
@@ -50,10 +54,5 @@ Now, if you followed the steps, the command found in `backup` should work:
 After you enable the unit files above,
 run the command `sudo systemctl daemon-reload` to reload configuration. 
 This will apply the changes.
-
-
-An overview of directories and files:
-
-![overview of directories and files](./images/small_map.png)
 
 ## To test the unit files
