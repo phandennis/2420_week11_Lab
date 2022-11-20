@@ -1,97 +1,59 @@
-# Lab 11
-# Raqin(A01265891) and Dennis
+# ACIT 2420 Week 11 Lab: Back up Project
 
-once you have setup both server-one and backup server you can begin writing the scripts
+## Team Members
+Dennis Phan (A01073874)  
+Raqin Shikder (A01265891)
 
+## Backup
+Script to backup the directories to a remote server automated by using unit files such as service and timer
 
-# Backup
+## How to Install the Project
 
-put this script in ```~/.local/bin/backup```
+### backup
+How to install the backup script and ensure it is functional:
 
-This script will backup files to a specific machine. To do this you can use rsync (rsync copies from the local host). wiht Rsync you can use the option 'aucz', 'a' will archive your files, 'u' will prevent the copy of files from the source if the files in the destination are newer.'c' changes the way rsync checks files,'z' compresses the files and -e will specify the remote shell to use
+1. Create a directory */opt/backup* using `mkdir /opt/backup`.
+2. Save this script into the directory you created above.
+3. Ensure your ssh private key is inside the .ssh folder and public key is in your .ssh folder in your back up server
+4. Create a config file named `backup.config` and put it into the same folder as the script above.
 
-you can backup using the code
+In this configuration file, you will have two variables: `directory` and `ip_address`.
+You can customize the values to your liking. 
 
-```rsync -aucz -e "ssh -i $HOME/backup_key" ${directory} root@${ip_address}:~/backup```
+5. Declare `directory` for directory or directories you want to backup.
+6. Declare `ip_address` to the intended remote server you want to back up the directories to.
 
-# backup.service
-
-this is a unit file
-
-put this file in ```/etc/systemd/systemd\/backup.service```
-this script is used to backup files locally every Friday at 01:00 using rsync
-
-```type=oneshot```               -this will execute the script only once
-
-```Execstart=/opt/wthr/wthr```   -this will execute the wthr script and declares the location of the script when it is transferred
-
-```Wantedby=multi-user.target``` -declares a weaker dependency that waits for multiuser target to startup
-
-# backup.timer
-this is a unit file
-put this file in ```/etc/systemd/system/backuptimer```
-this script is used for the timer to start for the backup.service script
-
-```OnCalendar=Fri *-*-* 01:00:00```    -sets the timer for friday at 01:00:00
-```persistent = true```                -the timer will start as soon as the server
-goes up if it ever goes down
-```Unit=backup.service```              
-
-```RandomizedDelaySec=3m```            -will delay the timer by 3 minutes
-
-```Wantedby=timers.target```           -sets all timer units that have to be active
-after boot
-
-# Testing
-to test if your scripts work you can do
-```sudo systemctl status backup```
-
-and
-
-```sudo systemctl status backup```
-
-on server-one
-
-output:
+![backup config file](./images/config_file.png)
 
 
-# Weather
+7. Create a directory in your back up server's home directory called *backup* using `mkdir backup`.
+
+Now, if you followed the steps, the command found in `backup` should work:
+![rsync file](./images/rsync_command.png)
+
+### backup.service
+1. Save this unit file into */etc/systemd/system* directory.
+2. Using the command `sudo systemctl enable backup.service` to enable the service file.
+3. Run the command `sudo systemctl status backup.service` to check that **backup.service** file is enabled.
+
+![service status](./images/status_service.png)
+
+### backup.timer
+1. Save this unit file into */etc/systemd/system* directory.
+2. Using the command `sudo systemctl enable backup.timer` to enable the timer file.
+3. Run the command `systemctl status backup.timer` to check that **backup.timer** file is enabled.
+4. [Optional] Run the command `sudo systemctl list-timers` to check that backup.timer is scheduled to run around 01:00:00 every Friday
+
+![timer status](./images/status_timer.png)
+
+### Apply changes
+After you enable the unit files above,
+run the command `sudo systemctl daemon-reload` to reload configuration. 
+This will apply the changes.
 
 
-# wthr
+An overview of directories and files:
 
-use curl to get information from wttr.in 
-you can do this  using the code below in a script:
+![overview of directories and files](./images/small_map.png)
 
- ```curl -s wttr.in/Vancouver -o /etc/motd```
-
- this will show you weather information for vancouver
-
-# wthr.service
-this is a unit file
-put this script in the weather directory on your  local machine
-this script will end up in /etc/systemd/system in the digital ocean server
-this script is used to get curl and wtter everday at  05:00
-
-```type=oneshot```               -this will execute the script only once
-
-```Execstart=/opt/wthr/wthr```   -this will execute the wthr script and declares the location of the script when it is transferred
-
-```Wantedby=multi-user.target``` -declares a weaker dependency that waits for multiuser target to startup
-
-
-# wthr.timer
-this is a unit file
-put this script in the weather directory on your local machine
-this script will end up in /etc/systemd/system in the digital ocean server
-this script is used for the timer to start for the wthr.service script
-
-```onCalendar=*-*-* 05:00:00```    -sets the timer for everyday at 05:00:00
-
-```persistent = true```            -the timer will start as soon as the server goes 
-
-up if it ever goes down
-
-```Wantedby=timers.target```       -sets all timer units that have to be active after boot
-
-
+## To test the unit files
