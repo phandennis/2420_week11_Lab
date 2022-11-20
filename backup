@@ -11,8 +11,8 @@
 
 #import varialbes
 # source backup.config
-. backup.config
+. /opt/backup/backup.config
 
 #using rsync to back up
-rsync -aucz -e "ssh -i $HOME/.ssh/backup_key" ${directory} root@${ip_address}:~/backup
+rsync -aucz -e "ssh -i ~/.ssh/backup_key" ${directory} root@${ip_address}:~/backup
 exit 0
