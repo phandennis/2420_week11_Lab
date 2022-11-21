@@ -16,10 +16,11 @@ An overview of directories and files:
 ### backup
 How to install the backup script and ensure it is functional:
 
-1. Create a directory */opt/backup* using `mkdir /opt/backup`.
-2. Save this script into the directory you created above.
-3. Ensure your ssh private key is inside the .ssh folder and public key is in your .ssh folder in your back up server
-4. Create a config file named `backup.config` and put it into the same folder as the script above.
+1. Create a directory */opt/backup* using:
+    `mkdir /opt/backup`
+3. Save this script into the directory you created above.
+4. Ensure your ssh private key is inside the .ssh folder and public key is in your .ssh folder in your back up server
+5. Create a config file named `backup.config` and put it into the same folder as the script above.
 
 In this configuration file, you will have two variables: `directory` and `ip_address`.
 You can customize the values to your liking. 
@@ -30,14 +31,17 @@ You can customize the values to your liking.
 ![backup config file](./images/config_file.png)
 
 
-7. Create a directory in your back up server's home directory called *backup* using `mkdir backup`.
+7. Create a directory in your back up server's home directory called *backup* using 
+    `mkdir backup`.
 
 Now, if you followed the steps, the command found in `backup` should work:
 ![rsync file](./images/rsync_command.png)
 
 ### backup.service
 1. Save this unit file into */etc/systemd/system* directory.
-2. Using the command `sudo systemctl enable backup.service` to enable the service file.
+2. Using the command 
+    `sudo systemctl enable backup.service` 
+to enable the service file.
 3. Run the command `sudo systemctl status backup.service` to check that **backup.service** file is enabled.
 
 ![service status](./images/status_service.png)
@@ -55,4 +59,3 @@ After you enable the unit files above,
 run the command `sudo systemctl daemon-reload` to reload configuration. 
 This will apply the changes.
 
-## To test the unit files
