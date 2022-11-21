@@ -35,7 +35,7 @@ You can customize the values to your liking.
     `mkdir backup`.
 
 Now, if you followed the steps, the command found in `backup` should work:
-![rsync file](./images/rsync_command.png)
+![rsync file](./images/rsync.png)
 
 ### backup.service
 1. Save this unit file into */etc/systemd/system* directory.
