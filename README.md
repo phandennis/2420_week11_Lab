@@ -1,5 +1,8 @@
 # ACIT 2420 Week 11 Lab: Back up Project
 
+Note to self: Complete this as a regular user, not root user.  
+Root does not require `sudo` - 2022/12/07
+
 ## Team Members
 Dennis Phan (A01073874)  
 Raqin Shikder (A01265891)
